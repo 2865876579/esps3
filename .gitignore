@@ -1,0 +1,18 @@
+# ESP-IDF build output
+build/
+sdkconfig.old
+sdkconfig.defaults.old
+
+# Editor / tooling
+.vscode/settings.local.json
+
+# Local secrets
+.env
+.env.local
+
+# Local tool state
+.claude/settings.local.json
+
+# Python cache
+__pycache__/
+*.py[cod]
