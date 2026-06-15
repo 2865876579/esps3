@@ -1,4 +1,10 @@
 dependencies:
+  78__esp-opus:
+    component_hash: null
+    source:
+      path: D:\esps3\components\78__esp-opus
+      type: local
+    version: 1.0.5
   espressif/cjson:
     component_hash: e788323270d90738662d66fffa910bfe1fba019bba087f01557e70c40485b469
     source:
@@ -16,6 +22,6 @@ dependencies:
     source:
       type: idf
     version: 5.1.2
-manifest_hash: d1eb502168782782171ed04fd04dd0249f70121348cb27f319f99585516f4035
+manifest_hash: bb3eda569bdca75df488a8fda409751e82baeab353cef225a7793cd81a8f64f9
 target: esp32s3
 version: 1.0.0

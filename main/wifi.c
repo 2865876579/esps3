@@ -70,6 +70,9 @@ int wifi_connect(const char *ssid, const char *password)
     ESP_ERROR_CHECK(esp_wifi_set_config(WIFI_IF_STA, &wifi_config));
     ESP_ERROR_CHECK(esp_wifi_start());
 
+    // 关闭 WiFi 省电模式，避免流式接收数据时丢包
+    esp_wifi_set_ps(WIFI_PS_NONE);
+
     ESP_LOGI(TAG, "正在连接 Wi-Fi: %s", ssid);
 
     // 等待连上或失败
