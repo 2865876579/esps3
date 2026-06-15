@@ -3,15 +3,11 @@
         {
             "name": "ESP-IDF",
             "compilerPath": "D:/Espressif/tools/xtensa-esp32s3-elf/esp-12.2.0_20230208/xtensa-esp32s3-elf/bin/xtensa-esp32s3-elf-gcc.exe",
+            "compileCommands": "${workspaceFolder}/build/compile_commands.json",
             "includePath": [
                 "${workspaceFolder}/**",
-                "D:/Espressif/frameworks/esp-idf-v5.1.2/components/**",
-                "D:/Espressif/frameworks/esp-idf-v5.1.2/components/freertos/FreeRTOS-Kernel/include",
-                "D:/Espressif/frameworks/esp-idf-v5.1.2/components/freertos/esp_additions/include",
-                "D:/Espressif/frameworks/esp-idf-v5.1.2/components/freertos/FreeRTOS-Kernel/portable/xtensa/include",
-                "D:/Espressif/frameworks/esp-idf-v5.1.2/components/esp_hw_support/include",
-                "D:/Espressif/frameworks/esp-idf-v5.1.2/components/hal/include",
-                "D:/Espressif/frameworks/esp-idf-v5.1.2/components/driver/include"
+                "${workspaceFolder}/build/config",
+                "D:/Espressif/frameworks/esp-idf-v5.1.2/components/**"
             ],
             "defines": [
                 "IDF_VER=\"v5.1.2\"",

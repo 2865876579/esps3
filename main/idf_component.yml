@@ -1,0 +1,4 @@
+dependencies:
+  espressif/esp_websocket_client: "^1.0.0"
+  espressif/cjson: "^1.7.0"
+  78/esp-opus: "^1.4.0"
