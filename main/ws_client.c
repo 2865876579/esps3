@@ -222,10 +222,24 @@ void ws_client_send_text(const char *text)
     cJSON_AddStringToObject(msg, "type", "text");
     cJSON_AddStringToObject(msg, "text", text);
     char *json_str = cJSON_PrintUnformatted(msg);
+    int json_len = strlen(json_str);
 
-    esp_websocket_client_send_text(s_client, json_str, strlen(json_str), portMAX_DELAY);
-    ESP_LOGI(TAG, "Sent: %s", json_str);
+    esp_websocket_client_send_text(s_client, json_str, json_len, portMAX_DELAY);
+    ESP_LOGI(TAG, "Sent text (%d bytes)", json_len);
 
     free(json_str);
     cJSON_Delete(msg);
+}
+
+void ws_client_send_raw(const char *json_str)
+{
+    if (!s_client || !esp_websocket_client_is_connected(s_client)) {
+        ESP_LOGW(TAG, "WebSocket not connected, cannot send");
+        return;
+    }
+
+    int json_len = strlen(json_str);
+    ESP_LOGI(TAG, "Sending raw JSON (%d bytes)", json_len);
+    esp_websocket_client_send_text(s_client, json_str, json_len, portMAX_DELAY);
+    ESP_LOGI(TAG, "Raw JSON sent (%d bytes)", json_len);
 }

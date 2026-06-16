@@ -3,6 +3,7 @@ idf_component_register(
         "main.c"
         "wifi.c"
         "audio_out.c"
+        "audio_in.c"
         "ws_client.c"
     INCLUDE_DIRS "."
     REQUIRES
