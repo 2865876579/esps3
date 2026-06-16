@@ -28,7 +28,7 @@ static const char *TAG = "audio_out";
 
 #define SAMPLE_RATE      16000
 #define DMA_DESC_NUM     8
-#define DMA_FRAME_NUM    480
+#define DMA_FRAME_NUM    511    // 对齐 AFE feed chunksize (512 超 DMA buffer，驱动强制截断)
 
 static i2s_chan_handle_t s_tx_chan = NULL;  // I2S0 喇叭
 static i2s_chan_handle_t s_rx_chan = NULL;  // I2S1 麦克风
@@ -72,10 +72,22 @@ void audio_out_init(void)
     rx_chan_cfg.dma_frame_num = DMA_FRAME_NUM;
     ESP_ERROR_CHECK(i2s_new_channel(&rx_chan_cfg, NULL, &s_rx_chan));  // TX=NULL, RX only
 
+    // INMP441 输出 24-bit 左对齐在 32-bit slot，且要求 BCLK ≥ 1MHz
+    // BCLK = 16kHz × 32 × 2 = 1.024MHz
     i2s_std_config_t rx_cfg = {
         .clk_cfg = I2S_STD_CLK_DEFAULT_CONFIG(SAMPLE_RATE),
-        .slot_cfg = I2S_STD_PHILIPS_SLOT_DEFAULT_CONFIG(
-            I2S_DATA_BIT_WIDTH_16BIT, I2S_SLOT_MODE_STEREO),
+        .slot_cfg = {
+            .data_bit_width = I2S_DATA_BIT_WIDTH_32BIT,
+            .slot_bit_width = I2S_SLOT_BIT_WIDTH_32BIT,
+            .slot_mode      = I2S_SLOT_MODE_STEREO,
+            .slot_mask      = I2S_STD_SLOT_BOTH,
+            .ws_width       = I2S_SLOT_BIT_WIDTH_32BIT,
+            .ws_pol         = false,
+            .bit_shift      = true,   // Philips: data 1 BCLK after WS
+            .left_align     = false,
+            .big_endian     = false,
+            .bit_order_lsb  = false,
+        },
         .gpio_cfg = {
             .mclk = I2S_GPIO_UNUSED,
             .bclk = I2S1_SCK_GPIO,
@@ -89,7 +101,7 @@ void audio_out_init(void)
     };
     ESP_ERROR_CHECK(i2s_channel_init_std_mode(s_rx_chan, &rx_cfg));
     ESP_ERROR_CHECK(i2s_channel_enable(s_rx_chan));
-    ESP_LOGI(TAG, "I2S1 RX 就绪 (SCK=%d, WS=%d, DIN=%d)",
+    ESP_LOGI(TAG, "I2S1 RX 就绪 (SCK=%d, WS=%d, DIN=%d, BCLK=1.024MHz)",
              I2S1_SCK_GPIO, I2S1_WS_GPIO, I2S1_DIN_GPIO);
 
     ESP_LOGI(TAG, "双 I2S 独立总线初始化完成");

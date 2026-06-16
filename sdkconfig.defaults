@@ -11,11 +11,15 @@ CONFIG_SPIRAM_MODE_OCT=y
 CONFIG_SPIRAM_SPEED_80M=y
 CONFIG_SPIRAM_USE_MALLOC=y
 
-# ===== Partition table: large single app =====
-CONFIG_PARTITION_TABLE_SINGLE_APP_LARGE=y
+# ===== Partition table: custom with model partition =====
+CONFIG_PARTITION_TABLE_CUSTOM=y
+CONFIG_PARTITION_TABLE_CUSTOM_FILENAME="partitions.csv"
 
 # ===== Main task stack =====
 CONFIG_ESP_MAIN_TASK_STACK_SIZE=8192
 
 # ===== Log level =====
 CONFIG_LOG_DEFAULT_LEVEL_INFO=y
+
+# ===== ESP-SR: 唤醒词 "你好小智" =====
+CONFIG_SR_WN_WN9_NIHAOXIAOZHI_TTS=y

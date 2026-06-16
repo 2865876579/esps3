@@ -5,6 +5,7 @@ idf_component_register(
         "audio_out.c"
         "audio_in.c"
         "ws_client.c"
+        "afe_wake_word.c"
     INCLUDE_DIRS "."
     REQUIRES
         esp_wifi
@@ -15,4 +16,5 @@ idf_component_register(
         esp_websocket_client
         cjson
         mbedtls
+        esp-sr
 )
